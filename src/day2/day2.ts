@@ -1,20 +1,22 @@
 import { promises as fsPromises } from 'fs';
 import path from 'path';
 
-export async function dayTwo() {
-  console.log('dayTwo');
+export async function day2() {
+  console.log('day2');
   try {
-    const data = await fsPromises.readFile(path.join(__dirname, './input-2-1'), { encoding: 'utf-8' });
+    const data = await fsPromises.readFile(path.join(__dirname, './input'), { encoding: 'utf-8' });
     const lines = data.split(/\r?\n/);
     let total = 0;
     let currentLineIndex = 1;
 
     lines.forEach((line) => {
-      /* console.log(`line: ${line}`); */
-      const [opp, me] = line.split(' ');
-      const roundResult = computeScore(opp, me);
-      total += roundResult;
-      console.log(`roundResult ${currentLineIndex++}/${lines.length}: ${roundResult}   total: ${total}`);
+      if (line) {
+        /* console.log(`line: ${line}`); */
+        const [opp, me] = line.split(' ');
+        const roundResult = computeScore(opp, me);
+        total += roundResult;
+        console.log(`roundResult ${currentLineIndex++}/${lines.length}: ${roundResult}   total: ${total}`);
+      }
     });
     console.log(`total: ${total}`);
   } catch (error) {

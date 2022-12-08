@@ -1,8 +1,8 @@
 import { promises as fsPromises } from 'fs';
 import path from 'path';
 
-export async function dayTwo22() {
-  console.log('dayTwo22');
+export async function day22() {
+  console.log('day22');
   try {
     const data = await fsPromises.readFile(path.join(__dirname, './input-2-1'), { encoding: 'utf-8' });
     const lines = data.split(/\r?\n/);

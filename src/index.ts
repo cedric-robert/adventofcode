@@ -1,7 +1,6 @@
-import { dayTwo } from './dayTwo/day-2';
-import { dayTwo22 } from './dayTwo/day-2-2';
+import { day3 } from './day3/day3';
 
 console.log('adventofcode starting');
-dayTwo();
-dayTwo22();
+day3();
+
 console.log('adventofcode finished');
