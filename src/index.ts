@@ -1,6 +1,6 @@
-import { day32 } from './day3/day32';
+import { day4 } from './day4/day4';
 
 console.log('adventofcode starting');
-day32();
+day4();
 
 console.log('adventofcode finished');
