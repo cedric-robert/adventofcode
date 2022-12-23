@@ -8,11 +8,12 @@ export async function day5() {
     const lines = data.split(/\r?\n/);
     const colNumberPositions = readInputColumnConfig(lines);
     let columns = initializeColumns(lines, colNumberPositions);
-    console.log('before', columns);
-    columns = readMoves(lines, columns);
-    console.log('after', columns);
+    const crateModel = 9001;
+    /* console.log('before', columns); */
+    columns = readMoves(lines, columns, crateModel);
+    /* console.log('after', columns); */
     const topCrate = readTopCrate(columns);
-    console.log('topCrate', topCrate);
+    console.log(`topCrate with crateModel(${crateModel}):`, topCrate);
   } catch (error) {
     console.error(error);
   }
@@ -26,7 +27,7 @@ function readTopCrate(columns: Map<number, string[]>): string {
   return topCrate;
 }
 
-function readMoves(lines: string[], columns: Map<number, string[]>): Map<number, string[]> {
+function readMoves(lines: string[], columns: Map<number, string[]>, crateMoverModel = 9000): Map<number, string[]> {
   const regex = /move (\d+) from (\d+) to (\d+)/gm;
   let lineIndex = 0;
   let line = lines[lineIndex];
@@ -43,16 +44,39 @@ function readMoves(lines: string[], columns: Map<number, string[]>): Map<number,
       }
 
       const [, quantity, from, to] = m;
-      for (let q = 0; q < +quantity; q++) {
-        const toMove = columns.get(+from)?.pop();
-        const colDest = columns.get(+to);
-        if (toMove !== undefined && colDest !== undefined) {
-          colDest.push(toMove);
-        }
+      switch (crateMoverModel) {
+        case 9000:
+          moveCrateModel9000(columns, +quantity, +from, +to);
+          break;
+        case 9001:
+          moveCrateModel9001(columns, +quantity, +from, +to);
+          break;
       }
     }
   }
   return columns;
+}
+
+function moveCrateModel9000(columns: Map<number, string[]>, quantity: number, from: number, to: number): void {
+  for (let q = 0; q < quantity; q++) {
+    const toMove = columns.get(from)?.pop();
+    const colDest = columns.get(to);
+    if (toMove !== undefined && colDest !== undefined) {
+      colDest.push(toMove);
+    }
+  }
+}
+
+function moveCrateModel9001(columns: Map<number, string[]>, quantity: number, from: number, to: number): void {
+  const fromCol = columns.get(from);
+  const colDest = columns.get(to);
+  /* console.log(`asking to move ${quantity}/${fromCol?.length} from ${from} to ${to}`); */
+  if (fromCol && colDest) {
+    const toMove = fromCol.splice(quantity * -1);
+    colDest.push(...toMove);
+  }
+
+  /* console.log('after moving', columns.values()); */
 }
 
 function initializeColumns(lines: string[], colNumberPositions: Map<number, number>): Map<number, string[]> {
