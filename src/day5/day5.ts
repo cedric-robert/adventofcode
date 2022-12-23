@@ -27,7 +27,7 @@ function readTopCrate(columns: Map<number, string[]>): string {
 }
 
 function readMoves(lines: string[], columns: Map<number, string[]>): Map<number, string[]> {
-  const regex = /move (\d) from (\d) to (\d)/gm;
+  const regex = /move (\d+) from (\d+) to (\d+)/gm;
   let lineIndex = 0;
   let line = lines[lineIndex];
   while (!line.startsWith('move')) {
